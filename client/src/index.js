@@ -4,17 +4,21 @@ import RouteCustomerIndex from './route/customer/index';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<RouteCustomerIndex />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<RouteCustomerIndex />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
 );
 

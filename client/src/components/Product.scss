@@ -13,11 +13,19 @@
     }
   }
 
-  > .name {
+  > .name-and-price {
     height: 100%;
     flex: auto;
     display: grid;
     gap: 6px;
+
+    > .name {
+      font-size: 1.3em;
+    }
+
+    > .price {
+      font-size: 1.1em;
+    }
   }
 
   > .quantity-wrapper {
@@ -25,15 +33,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 10px;
 
     > .change {
       font-size: 1.3em;
       background: #fff;
+      border-radius: 4px;
+      border-color: #eee;
+      padding: 5px 10px;
     }
 
     > .quantity {
-      font-size: 1.1em;
+      width: 20px;
+      text-align: center;
+      font-size: 1.3em;
     }
   }
 }
