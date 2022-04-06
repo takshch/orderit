@@ -1,16 +1,11 @@
 import express, { Express } from 'express';
 import router from './routes';
-import AppInitializer from './app-initializer';
-const PORT = 3000;
+import AppInitializer from './app-initializer'
 
-export default function startServer(): void {
-  const app: Express = express();
+const app: Express = express();
 
-  AppInitializer(app);
+AppInitializer(app);
 
-  app.get('/', router);
+app.get('/', router);
 
-  app.listen(PORT, () => {
-    console.log('Example app started');
-  });
-}
+export default app;

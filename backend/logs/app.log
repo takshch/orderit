@@ -1,0 +1,8 @@
+{"level":"info","message":"Server is running on 3000 and start listening...."}
+{"level":"info","message":"Server is running on 3000 and start listening...."}
+{"level":"info","message":"Server is running on 3000 and start listening...."}
+{"level":"info","message":"Server is running on 3000 and start listening...."}
+{"level":"info","message":"Server is running on 3000 and start listening...."}
+{"level":"info","message":"Server is running on 3000 and start listening...."}
+{"level":"info","message":"Server is running on 3000 and start listening...."}
+{"level":"info","message":"::1 - - [06/Apr/2022:13:00:22 +0000] \"GET / HTTP/1.1\" 404 139 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36\"\n"}
