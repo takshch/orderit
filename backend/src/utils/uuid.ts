@@ -1,7 +1,9 @@
 import ShortUniqueId from 'short-unique-id';
 
-const LENGTH = 10;
+const UUID_LENGTH = 10;
 
-const UUID = new ShortUniqueId({ length: LENGTH });
+const UUID = new ShortUniqueId({ length: UUID_LENGTH });
 
 export default UUID;
+
+export { UUID_LENGTH };
