@@ -1,6 +1,5 @@
 import boom from 'express-boom';
-import { Express } from 'express';
-import bodyParser from 'body-parser';
+import express, { Express, RequestHandler } from 'express';
 import morgan from 'morgan';
 import { MorganStream } from './utils/logger';
 import '../types/global';
@@ -13,7 +12,7 @@ function AppInitializer(app: Express) {
   app.use(morgan('combined', { stream: new MorganStream() }));
 
   // only parse response if Content type matches
-  app.use(bodyParser.json({ type: 'application/json' }));
+  app.use(express.json());
 }
 
 export default AppInitializer;

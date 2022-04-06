@@ -30,7 +30,8 @@ if (Options.console) {
 
 const logger = winston.createLogger({
   transports,
-  exitOnError: false
+  exitOnError: false,
+  // silent: process.env.NODE_ENV !== 'production'
 });
 
 // MorganStream is used as stream by morgan

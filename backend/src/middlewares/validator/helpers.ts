@@ -1,0 +1,1 @@
+export const simplifyErrorMessage = (message: string) => message.replace(/"/g, '');
