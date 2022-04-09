@@ -28,4 +28,27 @@ const createAccount: RequestHandler = async (req, res) => {
   }
 };
 
-export { createAccount };
+const login: RequestHandler = async (req, res) => {
+  try {
+    const uid = await AuthService.login(req.body);
+
+    if (uid) {
+      const token = generateAccessToken({ uid });
+
+      const cookieParams = {
+        httpOnly: true,
+        sameSite: true,
+        expires: new Date(Date.now() + (24 * 60 * 60 * 1000)),
+        signed: true,
+      };
+      res.cookie(config.get('cookieName'), token, cookieParams);
+
+      res.status(201).send({ uid });
+    }
+  } catch (e) {
+    console.log(e);
+    res.boom.badImplementation();
+  }
+};
+
+export { createAccount, login };

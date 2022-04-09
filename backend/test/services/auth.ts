@@ -1,4 +1,5 @@
 import * as assert from 'assert';
+import { login } from '../../src/services/session';
 import { getUserByEmail, createUser } from '../../src/services/session';
 import { firestore } from '../../src/utils/firebase';
 
@@ -18,5 +19,11 @@ describe('auth service', () => {
 
     const doc = await firestore.collection('users').doc(uid).get();
     assert.ok(doc.exists, 'user document must exists');
+  });
+
+  it('login function', async () => {
+    const data = { email: 'foo@example.com', password: 'hello123' };
+    const uid: string | null | undefined = await login(data);
+    assert.ok(uid);
   });
 });

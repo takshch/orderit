@@ -1,5 +1,7 @@
 import { firestore, auth, serverTimestamp } from '../utils/firebase';
 import { FirebaseError } from 'firebase-admin';
+import config from 'config';
+import axios from 'axios';
 
 const usersCollection = firestore.collection('users');
 
@@ -42,4 +44,29 @@ const createUserWithRole = async ({ email, password, role }: { email: string, pa
   }
 }
 
-export { createUser, createUserWithRole, getUserByEmail };
+let signInAPI: string;
+{
+  const apiKey = config.get('web_api_key');
+  if (!apiKey) {
+    throw new Error('web_api_key must exists');
+  }
+
+  signInAPI = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + config.get('web_api_key');
+}
+
+const login = async ({ email, password }: { email: string, password: string }) => {
+  const data = JSON.stringify({ email, password, returnSecureToken: false });
+
+  const response = await axios.post(signInAPI, data,
+    { headers: { 'Content-Type': 'application/json' } }
+  );
+
+  if (response.status === 200) {
+    const UserRecord = await getUserByEmail(email);
+    return UserRecord?.uid;
+  }
+
+  return null;
+};
+
+export { createUser, createUserWithRole, login, getUserByEmail };
