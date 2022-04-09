@@ -9,9 +9,9 @@
 
 # logs
 /backend/logs
-
-
-# others
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# others
+/backend/keys

@@ -13,5 +13,8 @@ admin.initializeApp({
 });
 
 const firestore = admin.firestore();
+const auth = admin.auth();
 
-export default firestore;
+const serverTimestamp = () => admin.firestore.FieldValue.serverTimestamp();
+
+export { firestore, auth, serverTimestamp };

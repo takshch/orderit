@@ -1,4 +1,4 @@
-import firestore from '../utils/firestore';
+import { firestore } from '../utils/firebase';
 import UUID from '../utils/uuid';
 
 const { assign } = Object;
