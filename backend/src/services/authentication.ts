@@ -7,12 +7,17 @@ if (!jwtKey) {
 }
 
 const generateAccessToken = (payload: object) => {
-  const token = jwt.sign(payload, jwtKey, { algorithm: 'ES256', expiresIn: '10s' });
+  const token = jwt.sign(payload, jwtKey, { algorithm: 'ES256', expiresIn: '1d' });
   return token;
 };
 
 const validateAccessToken = (token: string) => {
-  return jwt.verify(token, jwtKey, { algorithms: ['ES256'] });
+  const payload = jwt.verify(token, jwtKey, { algorithms: ['ES256'] });
+  if (typeof payload === 'string') {
+    return {};
+  }
+
+  return payload;
 };
 
 export { validateAccessToken, generateAccessToken };

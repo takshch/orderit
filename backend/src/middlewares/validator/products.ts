@@ -7,8 +7,7 @@ const createProduct: RequestHandler = async (req, res, next) => {
   const schema = Joi.object().strict().keys({
     name: Joi.string().required(),
     price: Joi.number().required(),
-    src: Joi.string().uri().optional(),
-    // uid: Joi.string().required()
+    src: Joi.string().uri().optional()
   });
 
   try {

@@ -1,9 +1,17 @@
 import { RequestHandler } from 'express';
 import * as ProductService from '../services/products';
 
+const { assign } = Object;
+
 const createProduct: RequestHandler = async (req, res) => {
   try {
-    const id = await ProductService.createProduct(req.body);
+    const owner = req?.userData?.uid;
+    if (!owner) {
+      res.boom.badImplementation();
+    }
+
+    const data = assign({}, req.body, { owner });
+    const id = await ProductService.createProduct(data);
     res.status(201).send({ id });
   } catch (e) {
     console.log(e);

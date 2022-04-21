@@ -5,8 +5,15 @@ const { assign } = Object;
 
 const productsCollection = firestore.collection('products');
 
-const createProduct = async ({ name, price, src }: { name: string; price: number, src?: string }) => {
-  const data = { name, price, src };
+interface ProductType {
+  name: string;
+  price: number;
+  src?: string;
+  owner: string;
+};
+
+const createProduct = async ({ name, price, src, owner }: ProductType) => {
+  const data = { name, price, src, owner };
 
   // src is optional
   // if src is not provided then it will be blank string
@@ -24,8 +31,9 @@ const fetchProduct = async (id: string) => {
   const ref = productsCollection.doc(id);
 
   const doc = await ref.get();
-  if (doc.exists) {
-    const { name, price, src }: any = doc.data();
+  const data = doc.data();
+  if (doc.exists && data) {
+    const { name, price, src } = data;
     return { name, price, src };
   }
 };

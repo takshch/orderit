@@ -17,6 +17,18 @@ const getUserByEmail = async (email: string) => {
   }
 };
 
+const getUserByUID = async (uid: string) => {
+  try {
+    const UserRecord = await auth.getUser(uid);
+    return UserRecord;
+  } catch (e: any) {
+    const err: FirebaseError = e;
+    if (err.code !== 'auth/user-not-found') {
+      throw e;
+    }
+  }
+};
+
 const setUserRole = ({ uid, role }: { uid: string, role: string }) => {
   auth.setCustomUserClaims(uid, { [role]: true });
 };
@@ -69,4 +81,4 @@ const login = async ({ email, password }: { email: string, password: string }) =
   return null;
 };
 
-export { createUser, createUserWithRole, login, getUserByEmail };
+export { createUser, createUserWithRole, login, getUserByEmail, getUserByUID };
