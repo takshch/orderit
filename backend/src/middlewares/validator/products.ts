@@ -32,5 +32,6 @@ const fetchProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
+const deleteProduct = fetchProduct;
 
-export { createProduct, fetchProduct };
+export { createProduct, fetchProduct, deleteProduct };

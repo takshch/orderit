@@ -36,4 +36,23 @@ const fetchProduct: RequestHandler = async (req, res) => {
   }
 };
 
-export { createProduct, fetchProduct };
+const deleteProduct: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  const owner = req?.userData?.uid;
+
+  if (owner) {
+    try {
+      const status = await ProductService.deleteProduct(id, owner);
+      if (status === true) {
+        res.status(200).send();
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  res.status(204).send();
+};
+
+export { createProduct, fetchProduct, deleteProduct };

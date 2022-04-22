@@ -38,4 +38,20 @@ const fetchProduct = async (id: string) => {
   }
 };
 
-export { createProduct, fetchProduct };
+const deleteProduct = async (id: string, owner: string) => {
+  const ref = productsCollection.doc(id);
+  const doc = await ref.get();
+
+  const data = doc.data();
+  if(doc.exists && data) {
+    const { owner: uid } = data;
+    // deletes product doc
+    // if user owns the product
+    if(uid === owner) {
+      await ref.delete();
+      return true;
+    }
+  }
+};
+
+export { createProduct, fetchProduct, deleteProduct };
