@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development ts-node-dev server.ts",
+    "start": "NODE_ENV=development ts-node-dev --files server.ts",
     "test": "mocha --recursive --timeout 10000",
     "generateJwtKey": "openssl ecparam -name prime256v1 -genkey -noout -out keys/jwt.key",
     "generateCookieKey": "openssl ecparam -name secp384r1 -genkey -noout -out keys/cookie.key",
