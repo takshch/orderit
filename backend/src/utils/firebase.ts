@@ -16,5 +16,6 @@ const firestore = admin.firestore();
 const auth = admin.auth();
 
 const serverTimestamp = () => admin.firestore.FieldValue.serverTimestamp();
+const FieldValue = admin.firestore.FieldValue;
 
-export { firestore, auth, serverTimestamp };
+export { firestore, auth, serverTimestamp, FieldValue };

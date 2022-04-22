@@ -1,9 +1,10 @@
-import { firestore } from '../utils/firebase';
+import { firestore, FieldValue } from '../utils/firebase';
 import UUID from '../utils/uuid';
 
 const { assign } = Object;
 
 const productsCollection = firestore.collection('products');
+const usersCollection = firestore.collection('users');
 
 interface ProductType {
   name: string;
@@ -21,10 +22,19 @@ const createProduct = async ({ name, price, src, owner }: ProductType) => {
     assign(data, { src: '' });
   }
 
-  const ref = productsCollection.doc(UUID());
-  await ref.set(data);
+  const productRef = productsCollection.doc(UUID());
+  const userRef = usersCollection.doc(owner);
 
-  return ref.id;
+  await firestore.runTransaction(async (transaction) => {
+    transaction.create(productRef, data);
+
+    // adds product id to users document
+    transaction.update(userRef, {
+      products: FieldValue.arrayUnion(productRef.id),
+    });
+  });
+
+  return productRef.id;
 };
 
 const fetchProduct = async (id: string) => {
