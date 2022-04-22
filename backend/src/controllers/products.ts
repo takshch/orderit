@@ -3,6 +3,22 @@ import * as ProductService from '../services/products';
 
 const { assign } = Object;
 
+const fetchAllProducts: RequestHandler = async (req, res) => {
+  const owner = req?.userData?.uid;
+
+  if(owner) {
+    try {
+      const products = await ProductService.fetchAllProducts(owner);
+      res.status(200).send(products);
+      return;
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+  res.boom.badImplementation();
+};
+
 const createProduct: RequestHandler = async (req, res) => {
   try {
     const owner = req?.userData?.uid;
@@ -55,4 +71,4 @@ const deleteProduct: RequestHandler = async (req, res) => {
   res.status(204).send();
 };
 
-export { createProduct, fetchProduct, deleteProduct };
+export { fetchProduct, fetchAllProducts, createProduct, deleteProduct };

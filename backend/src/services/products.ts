@@ -1,4 +1,5 @@
-import { firestore, FieldValue } from '../utils/firebase';
+import { firestore, FieldValue, FieldPath } from '../utils/firebase';
+import * as UserService from './user';
 import UUID from '../utils/uuid';
 
 const { assign } = Object;
@@ -11,6 +12,22 @@ interface ProductType {
   price: number;
   src?: string;
   owner: string;
+};
+
+const fetchAllProducts = async (uid: string) => {
+  const userData = await UserService.getUserData(uid);
+  if (typeof userData !== 'object') {
+    return;
+  }
+
+  const { products: productsIds = [] } = userData;
+  const snap = await productsCollection.where(FieldPath.documentId(), 'in', productsIds).get();
+
+  return snap.docs.map((doc) => {
+    const data = doc.data();
+    const { name, price, src } = data;
+    return { id: doc.id, name, price, src };
+  });
 };
 
 const createProduct = async ({ name, price, src, owner }: ProductType) => {
@@ -53,15 +70,15 @@ const deleteProduct = async (id: string, owner: string) => {
   const doc = await ref.get();
 
   const data = doc.data();
-  if(doc.exists && data) {
+  if (doc.exists && data) {
     const { owner: uid } = data;
     // deletes product doc
     // if user owns the product
-    if(uid === owner) {
+    if (uid === owner) {
       await ref.delete();
       return true;
     }
   }
 };
 
-export { createProduct, fetchProduct, deleteProduct };
+export { createProduct, deleteProduct, fetchProduct, fetchAllProducts };
