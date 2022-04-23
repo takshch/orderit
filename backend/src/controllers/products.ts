@@ -20,19 +20,21 @@ const fetchAllProducts: RequestHandler = async (req, res) => {
 };
 
 const createProduct: RequestHandler = async (req, res) => {
-  try {
-    const owner = req?.userData?.uid;
-    if (!owner) {
-      res.boom.badImplementation();
-    }
+  const owner = req?.userData?.uid;
 
+  if(owner) {
     const data = assign({}, req.body, { owner });
-    const id = await ProductService.createProduct(data);
-    res.status(201).send({ id });
-  } catch (e) {
-    console.log(e);
-    res.boom.badImplementation();
+
+    try {
+      const id = await ProductService.createProduct(data);
+      res.status(201).send({ id });
+      return;
+    } catch (e) {
+      console.log(e);
+    }
   }
+
+  res.boom.badImplementation();
 };
 
 const fetchProduct: RequestHandler = async (req, res) => {
