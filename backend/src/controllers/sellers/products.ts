@@ -1,12 +1,12 @@
 import { RequestHandler } from 'express';
 import * as ProductService from '../../services/products';
 
-const fetchAllProducts: RequestHandler = async (req, res) => {
+const fetchAllProductsIds: RequestHandler = async (req, res) => {
   const owner = req.params.sellerId;
 
   if (owner) {
     try {
-      const products = await ProductService.fetchAllProducts(owner) || [];
+      const products = await ProductService.fetchAllProductsIds(owner);
       res.status(200).send(products);
       return;
     } catch (e) {
@@ -17,4 +17,4 @@ const fetchAllProducts: RequestHandler = async (req, res) => {
   res.boom.badImplementation();
 };
 
-export { fetchAllProducts };
+export { fetchAllProductsIds };

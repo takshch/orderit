@@ -14,6 +14,20 @@ interface ProductType {
   owner: string;
 };
 
+const fetchAllProductsIds = async (uid: string) => {
+  const userData = await UserService.getUserData(uid);
+  if (typeof userData !== 'object') {
+    return;
+  }
+
+  const { products: productsIds } = userData;
+  if (!productsIds) {
+    return [];
+  }
+
+  return productsIds;
+};
+
 const fetchAllProducts = async (uid: string) => {
   const userData = await UserService.getUserData(uid);
   if (typeof userData !== 'object') {
@@ -85,4 +99,4 @@ const deleteProduct = async (id: string, owner: string) => {
   }
 };
 
-export { createProduct, deleteProduct, fetchProduct, fetchAllProducts };
+export { createProduct, deleteProduct, fetchProduct, fetchAllProducts, fetchAllProductsIds };
