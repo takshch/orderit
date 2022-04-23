@@ -20,7 +20,11 @@ const fetchAllProducts = async (uid: string) => {
     return;
   }
 
-  const { products: productsIds = [] } = userData;
+  const { products: productsIds } = userData;
+  if (!productsIds) {
+    return [];
+  }
+
   const snap = await productsCollection.where(FieldPath.documentId(), 'in', productsIds).get();
 
   return snap.docs.map((doc) => {
