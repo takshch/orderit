@@ -19,6 +19,7 @@
     "config": "^3.3.7",
     "cookie-encrypter": "^1.0.1",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "express-boom": "^3.0.0",
     "firebase-admin": "^10.0.2",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@types/config": "^0.0.41",
     "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/express-boom": "^3.0.1",
     "@types/joi": "^17.2.3",
