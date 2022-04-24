@@ -1,11 +1,14 @@
 import React from 'react';
-import './index.scss';
-import RouteCustomerIndex from './route/customer/index';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import reportWebVitals from './reportWebVitals';
+import './index.scss';
+
+// route components
+import RouteCustomerIndex from './route/customer/index';
+import RouteCustomerShop from './route/customer/shop';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -16,6 +19,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<RouteCustomerIndex />} />
+          <Route path="/shop/:shopId" element={<RouteCustomerShop />} />
         </Routes>
       </BrowserRouter>
     </Provider>
