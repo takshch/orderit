@@ -5,6 +5,10 @@ import axios from 'axios';
 
 const usersCollection = firestore.collection('users');
 
+export const USER_ROLE = {
+  SELLER: 'seller'
+};
+
 const getUserByEmail = async (email: string) => {
   try {
     const UserRecord = await auth.getUserByEmail(email);

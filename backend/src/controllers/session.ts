@@ -2,10 +2,24 @@ import { RequestHandler } from 'express';
 import * as AuthService from '../services/session';
 import { generateAccessToken } from '../services/authentication';
 import config from 'config';
+import pick from 'lodash.pick';
+
+
+const { assign } = Object;
 
 const createAccount: RequestHandler = async (req, res) => {
+  const { type } = req.body;
+  const userDetails = pick(req.body, ['email', 'password']);
+
   try {
-    const uid = await AuthService.createUser(req.body);
+    let uid;
+
+    if (type) {
+      const data = assign({}, userDetails, { role: type });
+      uid = await AuthService.createUserWithRole(data);
+    } else {
+      uid = await AuthService.createUser(userDetails);
+    }
 
     if (!uid) {
       res.status(200).send({ message: 'user already exists' });
