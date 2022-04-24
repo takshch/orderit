@@ -37,6 +37,11 @@ const setUserRole = ({ uid, role }: { uid: string, role: string }) => {
   auth.setCustomUserClaims(uid, { [role]: true });
 };
 
+const userHasRole = async (uid: string, role: string) => {
+  const userRecord = await getUserByUID(uid);
+  return userRecord?.customClaims?.[role];
+};
+
 const createUser = async ({ email, password }: { email: string, password: string }) => {
   let UserRecord = await getUserByEmail(email);
   if (UserRecord) return;
@@ -85,4 +90,4 @@ const login = async ({ email, password }: { email: string, password: string }) =
   return null;
 };
 
-export { createUser, createUserWithRole, login, getUserByEmail, getUserByUID };
+export { createUser, createUserWithRole, login, getUserByEmail, getUserByUID, userHasRole };
