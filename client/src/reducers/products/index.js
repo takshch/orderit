@@ -3,8 +3,8 @@ import ProductService from '../../services/products';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetch',
-  async () => {
-    const data = await ProductService.loadAll();
+  async (shopId) => {
+    const data = await ProductService.loadAllByShopId(shopId);
     return data;
   }
 );
@@ -26,26 +26,26 @@ export const products = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state, action) => {
-      if(state.error) {
+      if (state.error) {
         state.error = null;
       }
 
-      if(state.loading === LOADING_STATES.IDLE) {
+      if (state.loading === LOADING_STATES.IDLE) {
         state.loading = LOADING_STATES.PENDING;
       }
     })
-    .addCase(fetchProducts.fulfilled, (state, action) => {
-      if(state.loading === LOADING_STATES.PENDING) {
-        state.loading = LOADING_STATES.IDLE;
-        state.products.push(...action.payload);
-      }
-    })
-    .addCase(fetchProducts.rejected, (state, action) => {
-      if(state.loading === LOADING_STATES.PENDING) {
-        state.loading = LOADING_STATES.IDLE;
-        state.error =  action.error;
-      }
-    })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        if (state.loading === LOADING_STATES.PENDING) {
+          state.loading = LOADING_STATES.IDLE;
+          state.products.push(...action.payload);
+        }
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        if (state.loading === LOADING_STATES.PENDING) {
+          state.loading = LOADING_STATES.IDLE;
+          state.error = action.error;
+        }
+      })
   },
 });
 
