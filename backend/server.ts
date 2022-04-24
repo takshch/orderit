@@ -1,11 +1,15 @@
 import http from 'http';
 import app from './src/app';
 import logger from './src/utils/logger';
+import config from 'config';
 import './types/global';
 
 global.logger = logger;
 
-const PORT = 3000;
+const PORT: number = config.get('port');
+if (!PORT) {
+  throw new Error('PORT must exist in config');
+}
 
 const server = http.createServer(app);
 
