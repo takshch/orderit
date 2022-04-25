@@ -4,7 +4,6 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import reportWebVitals from './reportWebVitals';
-import './index.scss';
 
 // route components
 import RouteCustomerIndex from './route/customer/index';
