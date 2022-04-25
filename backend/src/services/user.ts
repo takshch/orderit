@@ -1,6 +1,6 @@
 import { firestore } from '../utils/firebase';
 
-const usersCollection = firestore.collection('users');
+export const usersCollection = firestore.collection('users');
 
 const getUserData = async (uid: string) => {
   const ref = usersCollection.doc(uid);
