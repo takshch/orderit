@@ -1,24 +1,24 @@
 import React, { useEffect } from "react";
 import Product from "../../components/Product";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../../reducers/products';
+import { fetchProducts } from '../../reducers/products/ids';
 import './index.scss';
 
 function RouteCustomerIndex() {
-  const { products, loading, error } = useSelector((state) => state.products);
+  const { loading, value: ids } = useSelector((state) => state.productsIds);
   const { id: shopId } = useSelector((state) => state.shop);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (products.length === 0 && shopId) {
+    if (ids.length === 0 && shopId) {
       dispatch(fetchProducts(shopId)).unwrap();
     }
-  }, [shopId, products, dispatch]);
+  }, [shopId, ids, dispatch]);
 
   return <div className="route-customer">
     {
-      loading === 'pending' ? 'loading...' : products.map(
-        (product, index) => <Product key={index} {...product} />
+      loading === 'pending' ? 'loading...' : ids.map(
+        (productId, index) => <Product key={index} id={productId} />
       )
     }
   </div>;

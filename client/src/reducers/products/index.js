@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import ProductService from '../../services/products';
 
-export const fetchProducts = createAsyncThunk(
-  'products/fetch',
-  async (shopId) => {
-    const data = await ProductService.loadAllByShopId(shopId);
-    return data;
+const { assign } = Object;
+
+export const fetchProductById = createAsyncThunk(
+  'product/fetchById',
+  async (productId, { dispatch }) => {
+    const data = await ProductService.loadById(productId);
+    dispatch(addProduct({ id: productId, data }));
   }
 );
 
@@ -16,37 +18,61 @@ const LOADING_STATES = {
 };
 
 const initialState = {
-  products: [],
-  loading: LOADING_STATES.IDLE,
-  error: null,
+  value: {},
 };
 
-export const products = createSlice({
+const products = createSlice({
   name: 'products',
   initialState,
-  extraReducers: (builder) => {
-    builder.addCase(fetchProducts.pending, (state, action) => {
-      if (state.error) {
-        state.error = null;
-      }
+  reducers: {
+    initialProduct: (state, action) => {
+      const id = action.payload;
 
-      if (state.loading === LOADING_STATES.IDLE) {
-        state.loading = LOADING_STATES.PENDING;
-      }
-    })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        if (state.loading === LOADING_STATES.PENDING) {
-          state.loading = LOADING_STATES.IDLE;
-          state.products.push(...action.payload);
+      const data = {
+        [id]: {
+          loading: LOADING_STATES.IDLE,
+          error: null,
+          value: {},
+        }
+      };
+      assign(state.value, data);
+    },
+    addProduct: (state, action) => {
+      const { id, data } = action.payload;
+      assign(state.value[id], { value: data });
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProductById.pending, (state, action) => {
+        const { meta: { arg: id } } = action;
+
+        if (state.value[id].error) {
+          assign(state.value[id], { error: null });
+        }
+
+        if (state.value[id].loading === LOADING_STATES.IDLE) {
+          assign(state.value[id], { loading: LOADING_STATES.PENDING });
         }
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        if (state.loading === LOADING_STATES.PENDING) {
-          state.loading = LOADING_STATES.IDLE;
-          state.error = action.error;
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        const { meta: { arg: id } } = action;
+
+        if (state.value[id].loading === LOADING_STATES.PENDING) {
+          assign(state.value[id], { loading: LOADING_STATES.IDLE });
         }
       })
+      .addCase(fetchProductById.rejected, (state, action) => {
+        const { meta: { arg: id } } = action;
+
+        if (state.value[id].loading === LOADING_STATES.PENDING) {
+          assign(state.value[id], { loading: LOADING_STATES.IDLE });
+          assign(state.value[id], { error: action.error });
+        }
+      });
   },
 });
+
+export const { initialProduct, addProduct } = products.actions;
 
 export default products.reducer;

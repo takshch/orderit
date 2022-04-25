@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductById } from '../reducers/products';
 import './Product.scss';
 
-function Product({ name, image, price }) {
+function Product({ id }) {
+  const { value } = useSelector((state) => state.products.value[id]);
+  const { name, src: image, price } = value;
+  const dispatch = useDispatch();
+
   let [quantity, setQuantity] = useState(0);
 
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => setQuantity(quantity - 1);
+
+  useEffect(() => {
+    dispatch(fetchProductById(id));
+  }, [id, dispatch]);
 
   return (
     <div className="product">
