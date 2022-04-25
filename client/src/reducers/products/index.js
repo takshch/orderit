@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import ProductService from '../../services/products';
+import * as ProductSerializer from '../../serializer/product';
 
 const { assign } = Object;
 
 export const fetchProductById = createAsyncThunk(
   'product/fetchById',
   async (productId, { dispatch }) => {
-    const data = await ProductService.loadById(productId);
+    let data = await ProductService.loadById(productId);
+    data = ProductSerializer.normalizeResponse(data);
     dispatch(addProduct({ id: productId, data }));
   }
 );
