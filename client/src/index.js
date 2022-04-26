@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 // route components
 import RouteCustomerIndex from './route/customer/index';
 import RouteCustomerShop from './route/customer/shop';
+import Login from './route/login';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -18,6 +19,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<RouteCustomerIndex />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/shop/:shopId" element={<RouteCustomerShop />} />
         </Routes>
       </BrowserRouter>
