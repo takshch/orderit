@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+
 import { store } from './store';
 import reportWebVitals from './reportWebVitals';
 
@@ -13,16 +16,20 @@ import Login from './route/login';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
+let persistor = persistStore(store);
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<RouteCustomerIndex />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/shop/:shopId" element={<RouteCustomerShop />} />
-        </Routes>
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<RouteCustomerIndex />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/shop/:shopId" element={<RouteCustomerShop />} />
+          </Routes>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
 );
