@@ -1,25 +1,14 @@
-import React, { useEffect } from "react";
-import Product from "../../components/Product";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../../reducers/products/ids';
+import React from "react";
+import { useSelector } from "react-redux";
+import Products from '../../components/Products';
 import './index.scss';
 
 function RouteCustomerIndex() {
-  const { loading, value: ids } = useSelector((state) => state.productsIds);
-  const { id: shopId } = useSelector((state) => state.shop);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (ids.length === 0 && shopId) {
-      dispatch(fetchProducts(shopId)).unwrap();
-    }
-  }, [shopId, ids, dispatch]);
+  const { isLoading } = useSelector((state) => state.productsIds);
 
   return <div className="route-customer">
     {
-      loading === 'pending' ? 'loading...' : ids.map(
-        (productId, index) => <Product key={index} id={productId} />
-      )
+      isLoading ? "Loading . . . " : <Products />
     }
   </div>;
 };

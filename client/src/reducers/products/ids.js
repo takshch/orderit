@@ -11,15 +11,10 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-const LOADING_STATES = {
-  IDLE: 'idle',
-  PENDING: 'pending',
-  REJECTED: 'rejected'
-};
-
 const initialState = {
   value: [],
-  loading: LOADING_STATES.IDLE,
+  isLoading: false,
+  isError: false,
   error: null,
 };
 
@@ -27,24 +22,26 @@ export const productsIds = createSlice({
   name: 'productsIds',
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(fetchProducts.pending, (state, action) => {
-      if (state.error) {
+    builder.addCase(fetchProducts.pending, (state) => {
+      if (state.isError) {
+        state.isError = false;
         state.error = null;
       }
 
-      if (state.loading === LOADING_STATES.IDLE) {
-        state.loading = LOADING_STATES.PENDING;
+      if (!state.isLoading) {
+        state.isLoading = true;
       }
     })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        if (state.loading === LOADING_STATES.PENDING) {
-          state.loading = LOADING_STATES.IDLE;
+        if (state.isLoading) {
+          state.isLoading = false;
           state.value.push(...action.payload);
         }
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        if (state.loading === LOADING_STATES.PENDING) {
-          state.loading = LOADING_STATES.IDLE;
+        if (state.isLoading) {
+          state.isLoading = false;
+          state.isError = true;
           state.error = action.error;
         }
       });
