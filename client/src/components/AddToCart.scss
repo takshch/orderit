@@ -1,0 +1,18 @@
+.add-to-cart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  $x-padding: 5px;
+  width: calc(100% - (2 * $x-padding));
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #eee;
+  background: #fff;
+  padding: 10px $x-padding;
+
+  > button {
+    width: 100%;
+    padding: 5px 0;
+  }
+}

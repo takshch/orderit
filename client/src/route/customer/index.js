@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Products from '../../components/Products';
+import AddToCart from '../../components/AddToCart';
 import './index.scss';
 
 function RouteCustomerIndex() {
@@ -10,6 +11,7 @@ function RouteCustomerIndex() {
     {
       isLoading ? "Loading . . . " : <Products />
     }
+    <AddToCart />
   </div>;
 };
 

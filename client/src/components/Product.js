@@ -3,13 +3,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById } from '../reducers/products';
 import './Product.scss';
 import classNames from 'classnames';
+import { updateQuantity } from '../reducers/tempCart';
 
 function Product({ id }) {
   const { loading, value } = useSelector((state) => state.products.value[id]);
   const { name, src: image, priceText } = value;
+  const { quantity } = useSelector((state) => state.tempCart.products[id] || {});
   const dispatch = useDispatch();
 
-  let [quantity, setQuantity] = useState(0);
+  const setQuantity = useCallback((qty = 0) => {
+    if (quantity !== 0 && qty < 0) {
+      qty = 0;
+    }
+
+    if (qty >= 0) {
+      dispatch(updateQuantity({ id, quantity: qty }));
+    }
+  }, [quantity, id, dispatch]);
+
+  useEffect(() => {
+    if (!quantity) {
+      setQuantity();
+    }
+  }, [quantity, setQuantity]);
+
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => setQuantity(quantity - 1);
 
