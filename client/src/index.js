@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals';
 // route components
 import RouteCustomerIndex from './route/customer/index';
 import RouteCustomerShop from './route/customer/shop';
+import RouteCart from './route/customer/cart';
 import Login from './route/login';
 
 const container = document.getElementById('root');
@@ -27,6 +28,7 @@ root.render(
             <Route path='/' element={<RouteCustomerIndex />} />
             <Route path="/login" element={<Login />} />
             <Route path="/shop/:shopId" element={<RouteCustomerShop />} />
+            <Route path="/cart" element={<RouteCart />} />
           </Routes>
         </BrowserRouter>
       </PersistGate>

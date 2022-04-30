@@ -23,9 +23,13 @@ const cartSlice = createSlice({
       const values = Object.values(state.products);
       state.hasProducts = values.some(({ quantity }) => quantity > 0);
     },
+    removeAll(state) {
+      state.products = {};
+      state.hasProducts = false;
+    }
   }
 });
 
-export const { updateQuantity } = cartSlice.actions;
+export const { updateQuantity, removeAll } = cartSlice.actions;
 
 export default cartSlice.reducer;
