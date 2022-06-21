@@ -4,6 +4,7 @@ import { fetchProductById } from '../reducers/products';
 import './Product.scss';
 import classNames from 'classnames';
 import { updateQuantity } from '../reducers/tempCart';
+import { Icon } from '@iconify/react';
 
 function Product({ id }) {
   const { loading, value } = useSelector((state) => state.products.value[id]);
@@ -54,12 +55,12 @@ function Product({ id }) {
       </div>
       {!isLoading && (
         <div className="quantity-wrapper">
-          <button className="change" onClick={increaseQuantity}>
-            +
+          <button className="change minus" onClick={decreaseQuantity}>
+            <Icon icon="clarity:minus-line" />
           </button>
           <span className="quantity">{quantity}</span>
-          <button className="change" onClick={decreaseQuantity}>
-            -
+          <button className="change plus" onClick={increaseQuantity}>
+            <Icon icon="clarity:plus-line" />
           </button>
         </div>
       )}

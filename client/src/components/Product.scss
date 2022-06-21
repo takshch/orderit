@@ -38,10 +38,19 @@
     margin: auto 0;
 
     > .change {
-      font-size: 1em;
+      display: grid;
+      font-size: 0.8em;
       background: #fff;
       border: 1px solid #b9b9b9;
       padding: em(5px) em(10px);
+
+      &.minus {
+        color: #2f2f2f;
+      }
+
+      &.plus {
+        color: rgb(14, 99, 14);
+      }
     }
 
     > .quantity {

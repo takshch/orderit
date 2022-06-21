@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.0.0-alpha.3"
+    "@craco/craco": "^7.0.0-alpha.3",
+    "@iconify/react": "^3.2.2"
   }
 }
