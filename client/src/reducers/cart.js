@@ -11,7 +11,15 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addProducts(state, action) {
-      assign(state.products, action.payload);
+      const data = assign({}, action.payload);
+
+      for (const [id, { quantity }] of Object.entries(data)) {
+        if (quantity === 0) {
+          delete data[id];
+        }
+      }
+
+      assign(state.products, data);
     },
   }
 });

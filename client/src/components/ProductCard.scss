@@ -1,0 +1,36 @@
+.product-card {
+  display: flex;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  padding: 10px 15px;
+  height: 2.5em;
+  justify-content: space-between;
+
+  > .image-and-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    > .image-wrapper {
+      height: 100%;
+      min-width: 40px;
+
+      > .image {
+        height: 100%;
+      }
+    }
+
+    > .name {
+      display: flex;
+      align-items: center;
+      font-size: 1.3em;
+    }
+  }
+
+  > .price-and-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+}
