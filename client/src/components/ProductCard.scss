@@ -23,14 +23,19 @@
     > .name {
       display: flex;
       align-items: center;
-      font-size: 1.3em;
+      font-size: 1.05em;
     }
   }
 
   > .price-and-quantity {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
     gap: 8px;
+    margin: auto 0;
+
+    > .price {
+      font-size: 0.9em;
+    }
   }
 }

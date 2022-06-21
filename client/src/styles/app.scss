@@ -10,3 +10,11 @@
     background-position-x: -200%;
   }
 }
+
+@function em($pixels) {
+  @if (unit($pixels) != "px") {
+    @error "em function: unit should in pixels";
+  }
+
+  @return ($pixels / 16px) * 1em;
+}
