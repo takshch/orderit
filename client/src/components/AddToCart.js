@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { addProducts } from '../reducers/cart';
 import { removeAll } from '../reducers/tempCart';
 import './AddToCart.scss';
+import Render from './Render';
 
-function AddToCart() {
+function AddToCart({ shopId }) {
   const { products, hasProducts } = useSelector((state) => state.tempCart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,14 +14,14 @@ function AddToCart() {
   const addToCart = useCallback(() => {
     dispatch(addProducts(products));
     dispatch(removeAll());
-    navigate('/cart');
-  }, [dispatch, products, navigate]);
+    navigate(`/shop/${shopId}/checkout`);
+  }, [dispatch, products, navigate, shopId]);
 
   return (
     <div className="add-to-cart">
-      {
-        hasProducts && <button onClick={() => addToCart()}>Add to Cart</button>
-      }
+      <Render when={hasProducts} fallback={<></>}>
+        <button onClick={() => addToCart()}>Add to Cart</button>
+      </Render>
     </div>
   );
 }

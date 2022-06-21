@@ -20,7 +20,7 @@ function RouteCustomerShop() {
     {
       isLoading ? "Loading . . . " : <Products />
     }
-    <AddToCart />
+    <AddToCart shopId={shopId} />
   </>);
 }
 

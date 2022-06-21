@@ -6,6 +6,7 @@ function RouteCheckout() {
   const [productsArr, setProductsArr] = useState([]);
 
   useEffect(() => {
+    console.log('checkotu component rendered');
     const entries = Object.entries(products);
     const arr = entries.map(([id, contents]) => ({ id, ...contents }));
     setProductsArr(arr);
@@ -14,9 +15,6 @@ function RouteCheckout() {
   return (
     <div className="route-checkout">
       Hello world
-      {
-        productsArr.map((product) => console.log(product))
-      }
     </div>
   );
 }
