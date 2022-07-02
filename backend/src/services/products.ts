@@ -1,4 +1,5 @@
 import { firestore, FieldValue, FieldPath } from '../utils/firebase';
+import * as admin from 'firebase-admin';
 import * as UserService from './user';
 import UUID from '../utils/uuid';
 
@@ -7,11 +8,18 @@ const { assign } = Object;
 const productsCollection = firestore.collection('products');
 const usersCollection = firestore.collection('users');
 
-interface ProductType {
+interface ProductDocType {
   name: string;
   price: number;
   src?: string;
   owner: string;
+};
+
+interface ProductType {
+  id: string;
+  name: string;
+  price: number;
+  src?: string;
 };
 
 const fetchAllProductsIds = async (uid: string) => {
@@ -48,7 +56,7 @@ const fetchAllProducts = async (uid: string) => {
   });
 };
 
-const createProduct = async ({ name, price, src, owner }: ProductType) => {
+const createProduct = async ({ name, price, src, owner }: ProductDocType) => {
   const data = { name, price, src, owner };
 
   // src is optional
@@ -97,6 +105,25 @@ const deleteProduct = async (id: string, owner: string) => {
       return true;
     }
   }
+};
+
+export const fetchProductsByIds = async (ids: Array<string>) => {
+  const productsRefs = ids.map((id) => productsCollection.doc(id));
+
+  const docs = await Promise.all(productsRefs.map(async (ref) => await ref.get()));
+
+  const products: Array<ProductType> = [];
+  docs.forEach((docs) => {
+    const { id } = docs;
+    const data = docs.data();
+
+    if (data) {
+      const { name, src, price } = data;
+      products.push({ id, name, src, price });
+    }
+  });
+
+  return products;
 };
 
 export { createProduct, deleteProduct, fetchProduct, fetchAllProducts, fetchAllProductsIds };
