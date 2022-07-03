@@ -1,0 +1,15 @@
+.quote-details {
+  border-radius: 4px;
+  border: 1px solid #eee;
+  padding: 10px 15px;
+  display: grid;
+
+  > .line {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    > .value {
+      text-align: right;
+    }
+  }
+}

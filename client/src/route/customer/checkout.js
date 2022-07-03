@@ -1,23 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import ProductCard from '../../components/ProductCard';
+import ProductQuantities from '../../components/ProductQuantities';
+import { getQuoteByQuantities } from '../../services/order';
+import useRequest from '../../hooks/useRequest';
+import OrderDetails from '../../components/QuoteDetails';
+import './checkout.scss';
 
 function RouteCheckout() {
-  const { products: productsAdded } = useSelector((state) => state.cart);
-  const { value: products } = useSelector((state) => state.products);
-  const [productsArr, setProductsArr] = useState([]);
+  const { products } = useSelector((state) => state.cart);
+  const { data, sendRequest } = useRequest();
 
   useEffect(() => {
-    const entries = Object.entries(productsAdded);
-    const arr = entries.map(([id, contents]) => ({ id, ...contents }));
+    const entries = Object.entries(products);
+    const productQuantities = entries.map(([id, { quantity }]) => ({ id, quantity }));
 
-    setProductsArr(arr);
-  }, [productsAdded, products]);
+    if (productQuantities.length !== 0) {
+      sendRequest(getQuoteByQuantities, productQuantities);
+    }
+  }, [products, sendRequest]);
 
   return (
     <div className="route-checkout">
       {
-        productsArr.map(({ id, quantity }, index) => <ProductCard key={index} id={id} quantity={quantity} />)
+        data && data.sub && <ProductQuantities products={data.sub} />
+      }
+      {
+        data && (
+          <OrderDetails
+            subtotal={data.subtotal}
+            tax={data.tax}
+            taxPercentage={data.taxPercentage}
+            total={data.total}
+          />
+        )
       }
     </div>
   );
