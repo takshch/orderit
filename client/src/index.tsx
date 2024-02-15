@@ -16,7 +16,7 @@ import RouteCart from './route/customer/cart';
 import Login from './route/login';
 import RouteShopIndex from './route/customer/shop/index';
 
-const container = document.getElementById('root');
+const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 
 let persistor = persistStore(store);
@@ -27,7 +27,7 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<RouteCustomerIndex />} />
+            <Route path="/" element={<RouteCustomerIndex />} />
             <Route path="/login" element={<Login />} />
             <Route path="/shop/:shopId" element={<RouteShopIndex />}>
               <Route path="" element={<RouteCustomerShop />} />
@@ -38,7 +38,7 @@ root.render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
