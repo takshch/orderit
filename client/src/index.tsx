@@ -1,20 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
 import { store } from './store';
-import reportWebVitals from './reportWebVitals';
-
-// route components
-import RouteCustomerIndex from './route/customer/index';
-import RouteCustomerShop from './route/customer/shop';
-import RouteCheckout from './route/customer/checkout';
-import RouteCart from './route/customer/cart';
-import Login from './route/login';
-import RouteShopIndex from './route/customer/shop/index';
+import { Router } from './Router';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
@@ -25,17 +17,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<RouteCustomerIndex />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/shop/:shopId" element={<RouteShopIndex />}>
-              <Route path="" element={<RouteCustomerShop />} />
-              <Route path="checkout" element={<RouteCheckout />} />
-            </Route>
-            <Route path="/cart" element={<RouteCart />} />
-          </Routes>
-        </BrowserRouter>
+        <Router />
       </PersistGate>
     </Provider>
   </React.StrictMode>
